@@ -11,7 +11,20 @@ export class AppController {
   }
 
   @Get('health')
-  getHealth(): { status: string, timestamp: string } {
-    return { status: 'OK', timestamp: new Date().toISOString().split('T')[1] };
+  getHealth(): { status: string; timestamp: string; pid: number } {
+    return {
+      status: 'OK',
+      timestamp: new Date().toISOString().split('T')[1],
+      pid: process.pid,
+    };
+  }
+
+  @Get('bench/cpu')
+  getCpuBench(): { status: string; pid: number } {
+    const end = Date.now() + 5;
+    while (Date.now() < end) {
+      // Occupy the event loop so extra workers can show throughput gains.
+    }
+    return { status: 'OK', pid: process.pid };
   }
 }

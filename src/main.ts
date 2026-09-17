@@ -13,11 +13,13 @@ async function bootstrap() {
   app.use(compression());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
+  app.enableShutdownHooks();
   setupCors(app);
   setupSwagger(app);
 
-  await app.listen(5000);
-  console.log(`Server is running on port 5000`);
+  const port = 5000;
+  await app.listen(port);
+  console.log(`Server is running on port ${port} (pid ${process.pid})`);
 }
 
 bootstrap();
