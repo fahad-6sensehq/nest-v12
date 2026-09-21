@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package app;
+
+service AppService {
+  rpc GetHealth (HealthRequest) returns (HealthResponse);
+}
+
+message HealthRequest {
+  string service = 1;
+}
+
+message HealthResponse {
+  string status = 1;
+  string timestamp = 2;
+  int32 pid = 3;
+  string service = 4;
+}
