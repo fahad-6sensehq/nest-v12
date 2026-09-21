@@ -1,15 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import * as os from 'os';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Get('health')
   getHealth(): { status: string; timestamp: string; pid: number } {
     return {
@@ -19,12 +12,12 @@ export class AppController {
     };
   }
 
-  @Get('bench/cpu')
-  getCpuBench(): { status: string; pid: number } {
-    const end = Date.now() + 5;
-    while (Date.now() < end) {
-      // Occupy the event loop so extra workers can show throughput gains.
-    }
-    return { status: 'OK', pid: process.pid };
+  @Get('activity')
+  getActivity(): { status: string; pid: number; memory: NodeJS.MemoryUsage; cpu: number; secret: string } {
+    const pid = process.pid;
+    const memory = process.memoryUsage();
+    const cpu = os.cpus().length;
+    const secret = process.env.SECRET_KEY as string;
+    return { status: 'OK', pid, memory, cpu, secret };
   }
 }
