@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import compression from 'compression';
 import helmet from 'helmet';
-import { GRPC_URL, HTTP_PORT, grpcClientOptions } from './app.grpc';
+import { GRPC_URL, HTTP_PORT, grpcServerOptions } from './app.grpc';
 import { AppModule } from './app.module';
 import { setupCors } from './config/cors.config';
 import { setupSwagger } from './config/swagger.config';
@@ -10,7 +10,7 @@ import { setupSwagger } from './config/swagger.config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.connectMicroservice(grpcClientOptions(GRPC_URL));
+  app.connectMicroservice(grpcServerOptions);
 
   app.use(helmet());
   app.use(compression());

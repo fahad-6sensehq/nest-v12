@@ -1,7 +1,7 @@
+import type { HealthRequest, HealthResponse } from '@contracts/proto';
 import { Controller, Get } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import * as os from 'os';
-import type { HealthRequest, HealthResponse } from './app.grpc';
 
 @Controller()
 export class AppController {
@@ -12,13 +12,13 @@ export class AppController {
 
   @GrpcMethod('AppService', 'GetHealth')
   grpcGetHealth(request: HealthRequest): HealthResponse {
-    return this.buildHealth(request.service);
+    return this.buildHealth(request.service || 'grpc');
   }
 
   private buildHealth(service: string): HealthResponse {
     return {
       status: 'OK',
-      timestamp: new Date().toISOString().split('T')[1],
+      timestamp: new Date().toISOString(),
       pid: process.pid,
       service,
     };

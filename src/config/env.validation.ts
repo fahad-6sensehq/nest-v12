@@ -22,11 +22,21 @@ export class EnvironmentVariables {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  DATABASE_URL!: string;
+  CORS_ORIGINS!: string;
 
   @IsString()
   @IsNotEmpty()
-  CORS_ORIGINS!: string;
+  MONGODB_URI!: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  MONGODB_DB_NAME!: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  USER_GRPC_URL!: string;
 }
 
 export function validateEnv(
